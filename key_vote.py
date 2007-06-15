@@ -36,6 +36,9 @@ def posToString( pos, ref ):
     s += ref[p]
   return s
   
+if len( sys.argv ) == 1 :
+  print "il faut spécifier le nom de fichier où seront stockés les résultats."
+  sys.exit(1)
 
   
 keyboards = {
