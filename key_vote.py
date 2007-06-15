@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf8 -*-
 
 import random, sys, pickle, os
 
@@ -39,10 +39,10 @@ def posToString( pos, ref ):
 
   
 keyboards = {
-  "azerty mac":             ( """@&é"'(azertqsdfg<wxcvb""", """§è!çà)-yuiop^$hjklmù`n,;:=""" ),
-  "azerty pc":              ( """²&é"'(azertqsdfg<wxcvb""", """-è_çà)=yuiop^$hjklmù`n,;:=""" ),
-  "bépo 6.2.2.4":           ( """@"«»()bépoèauie,êàyh.k""", """_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
-  "bépo 6.2.2.4 (test)":    ( """@"«»()bépoèauie,êàyh.k""", """_+-/*=%^vdljzwctsrnmç'qgxf""" ),
+  "azerty mac":             ( """@&Ã©"'(azertqsdfg<wxcvb""", """Â§Ã¨!Ã§Ã )-yuiop^$hjklmÃ¹`n,;:=""" ),
+  "azerty pc":              ( """Â²&Ã©"'(azertqsdfg<wxcvb""", """-Ã¨_Ã§Ã )=yuiop^$hjklmÃ¹`n,;:=""" ),
+  "bÃ©po 6.2.2.4":           ( """@"Â«Â»()bÃ©poÃ¨auie,ÃªÃ yh.k""", """_+-/*=%Ã§vdlfzwctsnrm^'qgxj""" ),
+  "bÃ©po 6.2.2.4 (test)":    ( """@"Â«Â»()bÃ©poÃ¨auie,ÃªÃ yh.k""", """_+-/*=%^vdljzwctsrnmÃ§'qgxf""" ),
 }
 
 keyboardName = readResult( "\n".join( keyboards.keys() ) + "\nvotre clavier: ")
@@ -97,7 +97,7 @@ while run:
   
     if pair not in results:
       nbOfSearch = 0
-      print "1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
+      print "1->  %s     2->  %s     0->  Ã©galitÃ©     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
       res = readResult( "vote: " )
       ires = zeroOneTwo( res )
       if res == "Q":
@@ -112,7 +112,7 @@ while run:
       elif ires != None :
         results[ pair ] = ires
       else:
-        print "Réponse invalide"
+        print "RÃ©ponse invalide"
       print
     else:
       nbOfSearch += 1
@@ -123,9 +123,9 @@ while run:
           run = False
           break
         elif res == "C":
-          print "Continue à chercher"
+          print "Continue Ã  chercher"
         else:
-          print "Réponse invalide"
+          print "RÃ©ponse invalide"
         print
         
       
