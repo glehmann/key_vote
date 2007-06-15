@@ -42,10 +42,10 @@ if len( sys.argv ) == 1 :
 
   
 keyboards = {
-  "azerty mac":             ( """@&é"'(azertqsdfg<wxcvb""", """§è!çà)-yuiop^$hjklmù`n,;:=""" ),
-  "azerty pc":              ( """²&é"'(azertqsdfg<wxcvb""", """-è_çà)=yuiop^$hjklmù`n,;:=""" ),
-  "bépo 6.2.2.4":           ( """@"«»()bépoèauie,êàyh.k""", """_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
-  "bépo 6.2.2.4 (test)":    ( """@"«»()bépoèauie,êàyh.k""", """_+-/*=%^vdljzwctsrnmç'qgxf""" ),
+  "azerty mac":             ( u"""@&é"'(azertqsdfg<wxcvb""", u"""§è!çà)-yuiop^$hjklmù`n,;:=""" ),
+  "azerty pc":              ( u"""²&é"'(azertqsdfg<wxcvb""", u"""-è_çà)=yuiop^$hjklmù`n,;:=""" ),
+  "bépo 6.2.2.4":           ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
+  "bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
 }
 
 keyboardName = readResult( "\n".join( keyboards.keys() ) + "\nvotre clavier: ")
@@ -100,7 +100,7 @@ while run:
   
     if pair not in results:
       nbOfSearch = 0
-      print "1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
+      print u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
       res = readResult( "vote: " )
       ires = zeroOneTwo( res )
       if res == "Q":
