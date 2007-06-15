@@ -53,7 +53,8 @@ hands = keyboards[ keyboardName ]
   
 leftHand,rightHand = hands
 
-nbOfChars = int( readResult( "N-gramme: ") )
+#nbOfChars = int( readResult( "N-gramme: ") )
+nbOfChars = 1
 
 nbOfVotes = 10
 
