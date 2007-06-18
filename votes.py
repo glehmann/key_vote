@@ -42,6 +42,8 @@ for fName in sys.argv[1:] :
 print nbOfVotes, "votes."
 
 d = {}
+for i in range( 0, 126 ) :
+  d[ str( i ) ] = "  "
 for pos, total in scores.iteritems():
   d[ str( pos[0] ) ] = str( total ).rjust( 2 )
   

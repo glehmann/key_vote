@@ -56,6 +56,8 @@ for pos, ( lost, total ) in scores.iteritems():
   
 ratio.sort()
 d = {}
+for i in range( 0, 126 ) :
+  d[ str( i ) ] = "  "
 for r, pos in ratio:
   if r == 1 :
     d[ str( pos[0] ) ] = "00"

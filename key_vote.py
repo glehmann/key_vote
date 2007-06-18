@@ -115,28 +115,11 @@ if os.path.exists( sys.argv[1] ):
   results = pickle.load( file( sys.argv[1] ) )
 else:
   results = {}
-
-  for i in range( 11, 15 ):
-    for i2 in range( i + 1, 15 ):
-      results[ ( (i,), (i2,) ) ] = 0
-  for i in range( 0, 11 ):
-    for i2 in range( 11, 15 ):
-      results[ ( (i,), (i2,) ) ] = 2
-  for i in range( 15, len( leftHand ) ):
-    for i2 in range( 11, 15 ):
-      results[ ( (i2,), (i,) ) ] = 1
-           
-  for i in range( 15, 19 ):
-    for i2 in range( i + 1, 19 ):
-      results[ ( ( 100 + i,), ( 100 + i2,) ) ] = 0
-  for i in range( 0, 15 ):
-    for i2 in range( 15, 19 ):
-      results[ ( ( 100 + i,), ( 100 + i2,) ) ] = 2
-  for i in range( 19, len( rightHand ) ):
-    for i2 in range( 15, 19 ):
-      results[ ( ( 100 + i2,), ( 100 + i,) ) ] = 1
         
 chars = leftHand.ljust( 100 ) + rightHand
+rightHomePos = [(11,), (12,), (13,), (14,)]
+leftHomePos = [(115,), (116,), (117,), (118,)]
+homePos = rightHomePos + leftHomePos
 
 run = True
 nbOfSearch = 0
@@ -145,30 +128,41 @@ while run:
     candidate1 = generateCandidate( nbOfChars, min, max )
     candidate2 = generateCandidate( nbOfChars, min, max, candidate1 )
     pair = tuple( sorted( ( candidate1, candidate2 ) ) )
+    candidate1, candidate2 = pair
   
     s1 = posToString( pair[0], chars )
     s2 = posToString( pair[1], chars )
   
     if pair not in results:
       nbOfSearch = 0
-      printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
-      printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-      res = readResult( "vote: " )
-      ires = zeroOneTwo( res )
-      if res == "Q":
-        run = False
-        break
-      elif res == "S":
-        pickle.dump( results, file( sys.argv[1], "w" ) )
-      elif res == s1:
+      if candidate1 in homePos and candidate2 not in homePos :
         results[ pair ] = 1
-      elif res == s2:
+        printStdOut( "Vote automatique: " + posToString( candidate1, chars ) + " > " + posToString( candidate2, chars ) )
+      elif candidate2 in homePos and candidate1 not in homePos :
         results[ pair ] = 2
-      elif ires != None :
-        results[ pair ] = ires
-      else:
-        printStdOut( u"Réponse invalide" )
-      printStdOut()
+        printStdOut( "Vote automatique: " + posToString( candidate1, chars ) + " < " + posToString( candidate2, chars ) )
+      elif candidate2 in homePos and candidate1 in homePos :
+        results[ pair ] = 0
+        printStdOut( "Vote automatique: " + posToString( candidate1, chars ) + " = " + posToString( candidate2, chars ) )
+      else :
+        printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
+        printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
+        res = readResult( "vote: " )
+        ires = zeroOneTwo( res )
+        if res == "Q":
+          run = False
+          break
+        elif res == "S":
+          pickle.dump( results, file( sys.argv[1], "w" ) )
+        elif res == s1:
+          results[ pair ] = 1
+        elif res == s2:
+          results[ pair ] = 2
+        elif ires != None :
+          results[ pair ] = ires
+        else:
+          printStdOut( u"Réponse invalide" )
+        printStdOut()
     else:
       nbOfSearch += 1
       if nbOfSearch > 1000:
@@ -214,6 +208,8 @@ for pos, ( lost, total ) in scores.iteritems():
   
 ratio.sort()
 d = {}
+for i in range( 0, 126 ) :
+  d[ str( i ) ] = "  "
 for r, pos in ratio:
   if r == 1 :
     d[ str( pos[0] ) ] = "00"
