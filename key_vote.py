@@ -4,6 +4,28 @@
 import random, sys, pickle, os
 
 
+if sys.version < '2.4' :
+  def sorted(iterable, cmp=None, key=None, reverse=False) :
+    i = list(iterable)
+    if key :
+      d = {}
+      for v in iterable :
+        k = key(v)
+        if not d.has_key(k) :
+          d[k] = []
+        d[k].append(v)
+      keys = d.keys()
+      keys.sort(cmp)
+      i = []
+      for k in keys :
+        i += d[k]
+    else :
+      i.sort(cmp)
+    if reverse :
+      i.reverse()
+    return i
+	
+
 def generateCandidate( candidateSize, min, max, wrong=[] ):
   candidate = []
   for i in range( candidateSize ):
