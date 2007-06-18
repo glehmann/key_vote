@@ -84,9 +84,6 @@ nbOfVotes = 10
 
 if os.path.exists( sys.argv[1] ):
   results = pickle.load( file( sys.argv[1] ) )
-  printStdOut()
-  printStdOut( "%i votes dans le fichier" % len( results ) )
-  printStdOut()
 else:
   results = {}
 
@@ -126,6 +123,7 @@ while run:
     if pair not in results:
       nbOfSearch = 0
       printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
+      printStdOut( u"       %i duels réalisés" % len( results ) )
       res = readResult( "vote: " )
       ires = zeroOneTwo( res )
       if res == "Q":
@@ -146,6 +144,7 @@ while run:
       nbOfSearch += 1
       if nbOfSearch > 1000:
         printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
+        printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter" )
         res = readResult( u"Choix: " )
         if res == "Q":
           run = False
