@@ -185,5 +185,5 @@ for pos, ( lost, total ) in scores.iteritems():
   
 ratio.sort()
 for r, pos in ratio:
-  printStdOut( posToString( pos, chars ) + " " + r )
+  printStdOut( posToString( pos, chars ) + " " + str( r ) )
   
