@@ -1,4 +1,4 @@
-﻿#!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import random, sys, pickle, os
@@ -24,7 +24,9 @@ if sys.version < '2.4' :
     if reverse :
       i.reverse()
     return i
-	
+
+def printStdOut( s="" ) :
+  print s.encode( sys.stdout.encoding ) # très bizarre, mais ça ne fonctionne pas sans ça sur mac
 
 def generateCandidate( candidateSize, min, max, wrong=[] ):
   candidate = []
@@ -42,7 +44,7 @@ def readResult( s="" ):
   res = sys.stdin.readline().strip()
   if res == "":
     return readResult( s )
-  return res
+  return unicode( res, sys.stdin.encoding )
   
 def zeroOneTwo( s ):
   if not s.isdigit():
@@ -59,15 +61,15 @@ def posToString( pos, ref ):
   return s
   
 if len( sys.argv ) == 1 :
-  print "il faut spécifier le nom de fichier où seront stockés les résultats."
+  printStdOut( "il faut spécifier le nom de fichier où seront stockés les résultats." )
   sys.exit(1)
 
   
 keyboards = {
-  "azerty mac":             ( u"""@&é"'(azertqsdfg<wxcvb""", u"""§è!çà)-yuiop^$hjklmù`n,;:=""" ),
-  "azerty pc":              ( u"""²&é"'(azertqsdfg<wxcvb""", u"""-è_çà)=yuiop^$hjklmù`n,;:=""" ),
-  "bépo 6.2.2.4":           ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
-  "bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
+  u"azerty mac":             ( u"""@&é"'(azertqsdfg<wxcvb""", u"""§è!çà)-yuiop^$hjklmù`n,;:=""" ),
+  u"azerty pc":              ( u"""²&é"'(azertqsdfg<wxcvb""", u"""-è_çà)=yuiop^$hjklmù`n,;:=""" ),
+  u"bépo 6.2.2.4":           ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
+  u"bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
 }
 
 keyboardName = readResult( "\n".join( keyboards.keys() ) + "\nvotre clavier: ")
@@ -82,9 +84,9 @@ nbOfVotes = 10
 
 if os.path.exists( sys.argv[1] ):
   results = pickle.load( file( sys.argv[1] ) )
-  print
-  print "%i votes dans le fichier" % len( results )
-  print
+  printStdOut()
+  printStdOut( "%i votes dans le fichier" % len( results ) )
+  printStdOut()
 else:
   results = {}
 
@@ -123,8 +125,7 @@ while run:
   
     if pair not in results:
       nbOfSearch = 0
-      out = u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
-      print out.encode( sys.stdout.encoding ) # très bizarre, mais ça ne fonctionne pas sans ça sur mac
+      printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
       res = readResult( "vote: " )
       ires = zeroOneTwo( res )
       if res == "Q":
@@ -139,30 +140,30 @@ while run:
       elif ires != None :
         results[ pair ] = ires
       else:
-        print "Réponse invalide"
-      print
+        printStdOut( u"Réponse invalide" )
+      printStdOut()
     else:
       nbOfSearch += 1
       if nbOfSearch > 1000:
-        print "Il semble difficile de trouver de nouvelles combinaisons."
-        res = readResult( "Choix: " )
+        printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
+        res = readResult( u"Choix: " )
         if res == "Q":
           run = False
           break
         elif res == "C":
-          print "Continue à chercher"
+          printStdOut( u"Continue à chercher" )
         else:
-          print "Réponse invalide"
-        print
+          printStdOut( u"Réponse invalide" )
+        printStdOut()
         
       
     
 pickle.dump( results, file( sys.argv[1], "w" ) )
 
 scores = {}
-print "Vos votes :"
+printStdOut( u"Vos votes :" )
 for ( pos1, pos2 ), v in results.iteritems():
-  print posToString( pos1, chars ), "=><"[v], posToString( pos2, chars )
+  printStdOut( posToString( pos1, chars ) + " " + "=><"[v] + " " + posToString( pos2, chars ) )
   
   lost, total = scores.get( pos1, ( 0, 0 ) )
   total += 1
@@ -176,7 +177,7 @@ for ( pos1, pos2 ), v in results.iteritems():
     lost += 1
   scores[ pos2 ] = ( lost, total )
   
-print
+printStdOut()
 
 ratio = []
 for pos, ( lost, total ) in scores.iteritems():
@@ -184,5 +185,5 @@ for pos, ( lost, total ) in scores.iteritems():
   
 ratio.sort()
 for r, pos in ratio:
-  print posToString( pos, chars ), r
+  printStdOut( posToString( pos, chars ) + " " + r )
   
