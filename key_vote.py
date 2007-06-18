@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# -*- coding: utf8 -*-
+﻿#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import random, sys, pickle, os
 
@@ -101,7 +101,8 @@ while run:
   
     if pair not in results:
       nbOfSearch = 0
-      print u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
+      out = u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 )
+      print out.encode( sys.stdout.encoding ) # très bizarre, mais ça ne fonctionne pas sans ça sur mac
       res = readResult( "vote: " )
       ires = zeroOneTwo( res )
       if res == "Q":
