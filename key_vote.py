@@ -147,25 +147,21 @@ while run:
       else :
         printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-        validResult = False
-        while not validResult :
-          validResult = True
-          res = readResult( "vote: " )
-          ires = zeroOneTwo( res )
-          if res == "Q":
-            run = False
-            break
-          elif res == "S":
-            pickle.dump( results, file( sys.argv[1], "w" ) )
-          elif res == s1:
-            results[ pair ] = 1
-          elif res == s2:
-            results[ pair ] = 2
-          elif ires != None :
-            results[ pair ] = ires
-          else:
-            printStdOut( u"Réponse invalide" )
-            validResult = False
+        res = readResult( "vote: " )
+        ires = zeroOneTwo( res )
+        if res == "Q":
+          run = False
+          break
+        elif res == "S":
+          pickle.dump( results, file( sys.argv[1], "w" ) )
+        elif res == s1:
+          results[ pair ] = 1
+        elif res == s2:
+          results[ pair ] = 2
+        elif ires != None :
+          results[ pair ] = ires
+        else:
+          printStdOut( u"Réponse invalide" )
         printStdOut()
     else:
       nbOfSearch += 1
