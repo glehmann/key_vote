@@ -39,12 +39,16 @@ def generateCandidate( candidateSize, min, max, wrong=[] ):
     return generateCandidate( candidateSize, min, max, wrong )
   return tuple( candidate )
 
-def readResult( s="" ):
+def readResult( s="", validResults=None ):
   print s,
   res = sys.stdin.readline().strip()
-  if res == "":
-    return readResult( s )
-  return unicode( res, sys.stdin.encoding )
+  res = unicode( res, sys.stdin.encoding )
+  
+  if validResults and res not in validResults :
+    printStdOut( u"Réponse invalide." )
+    return readResult( s, validResults )
+    
+  return res
   
 def zeroOneTwo( s ):
   if not s.isdigit():
@@ -92,7 +96,8 @@ keyboardTemplate = u"""
 """
   
 
-keyboardName = readResult( "\n".join( keyboards.keys() ) + "\nvotre clavier: ")
+printStdOut( "\n".join( keyboards.keys() ) )
+keyboardName = readResult( "votre clavier: ", keyboards.keys() )
 hands = keyboards[ keyboardName ]
   
 leftHand,rightHand = hands
@@ -147,7 +152,7 @@ while run:
       else :
         printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-        res = readResult( "vote: " )
+        res = readResult( "vote: ", ["Q", "S", "0", "1", "2", s1, s2] )
         ires = zeroOneTwo( res )
         if res == "Q":
           run = False
@@ -161,7 +166,7 @@ while run:
         elif ires != None :
           results[ pair ] = ires
         else:
-          printStdOut( u"Réponse invalide" )
+          printStdOut( u"Erreur dans le programme !" )
         printStdOut()
     else:
       nbOfSearch += 1
@@ -169,14 +174,14 @@ while run:
         printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
         printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter" )
         printStdOut( u"       %i duels réalisés" % len( results ) )
-        res = readResult( u"Choix: " )
+        res = readResult( u"Choix: ", ["C", "Q"] )
         if res == "Q":
           run = False
           break
         elif res == "C":
           printStdOut( u"Continue à chercher" )
         else:
-          printStdOut( u"Réponse invalide" )
+          printStdOut( u"Erreur dans le programme !" )
         printStdOut()
         
       
@@ -211,10 +216,11 @@ d = {}
 for i in range( 0, 126 ) :
   d[ str( i ) ] = "  "
 for r, pos in ratio:
-  if r == 1 :
-    d[ str( pos[0] ) ] = "00"
-  else :
-    d[ str( pos[0] ) ] = str( int( r * 100 ) ).rjust( 2 )
+  if len( pos ) == 1 :
+    if r == 1 :
+      d[ str( pos[0] ) ] = "00"
+    else :
+      d[ str( pos[0] ) ] = str( int( r * 100 ) ).rjust( 2 )
   printStdOut( posToString( pos, chars ) + " " + str( r ) )
   
 printStdOut( keyboardTemplate % d )
