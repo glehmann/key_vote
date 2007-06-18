@@ -214,26 +214,28 @@ for pos, ( lost, total ) in scores.iteritems():
 ratio.sort()
 d = {}
 for r, pos in ratio:
-  if r <= 0.1 :
+  if r < 0.1 :
     group = 10
-  elif r <= 0.2 :
+  elif r < 0.2 :
     group = 9
-  elif r <= 0.3:
+  elif r < 0.3:
     group = 8
-  elif r <= 0.4 :
+  elif r < 0.4 :
     group = 7
-  elif r <= 0.5 :
+  elif r < 0.5 :
     group = 6
-  elif r <= 0.6 :
+  elif r < 0.6 :
     group = 5
-  elif r <= 0.7 :
+  elif r < 0.7 :
     group = 4
-  elif r <= 0.8 :
+  elif r < 0.8 :
     group = 3
-  elif r <= 0.9 :
+  elif r < 0.9 :
     group = 2
   elif r <= 1 :
     group = 1
+  else :
+    group = -1
   d[ str( pos[0] ) ] = str( group ).rjust( 2 )
   printStdOut( posToString( pos, chars ) + " " + str( r ) )
   
