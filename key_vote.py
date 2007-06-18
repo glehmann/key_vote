@@ -72,10 +72,39 @@ keyboards = {
   u"bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
 }
 
+keyboardTemplate = u"""
+┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────╔════════╗
+│    │    │    │    │    │    │    │    │    │    │    │    │    ║        ║
+│ %(0)s │ %(1)s │ %(2)s │ %(3)s │ %(4)s │ %(5)s │ %(100)s │ %(101)s │ %(102)s │ %(103)s │ %(104)s │ %(105)s │ %(106)s ║ <--    ║
+╔═══════╗─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─┴──┬─╚══╦═════╣
+║  |<-  ║    │    │    │    │    │    │    │    │    │    │    │    ║   | ║
+║  ->|  ║ %(6)s │ %(7)s │ %(8)s │ %(9)s │ %(10)s │ %(107)s │ %(108)s │ %(109)s │ %(110)s │ %(111)s │ %(112)s │ %(113)s ║ <-' ║
+╠═══════╩╗───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───┴┬───╚╗    ║
+║        ║    │    │    │    │    │    │    │    │    │    │    │    ║    ║
+║  CAPS  ║ %(11)s │ %(12)s │ %(13)s │ %(14)s │ %(15)s │ %(114)s │ %(115)s │ %(116)s │ %(117)s │ %(118)s │ %(119)s │ %(120)s ║    ║
+╠══════╦═╝──┬─┴──┬─┴──┬─┴─══─┴──┬─┴──┬─┴─══─┴──┬─┴──┬─┴──┬─┴──╔══════╩════╣
+║   ^  ║    │    │    │    │    │    │    │    │    │    │    ║     ^     ║
+║   |  ║ %(16)s │ %(17)s │ %(18)s │ %(19)s │ %(20)s │ %(21)s │ %(121)s │ %(122)s │ %(123)s │ %(124)s │ %(125)s ║     |     ║
+╠══════╩╦══════╦═════╦═══════════════════════╦═══════╦══════╦═╩════╦══════╣
+║       ║      ║     ║                       ║       ║      ║      ║      ║
+║ Ctrl  ║ WinG ║ Alt ║  SPACE                ║ AltGr ║ WinD ║ WinM ║ Ctrl ║
+╚═══════╩══════╩═════╩═══════════════════════╩═══════╩══════╩══════╩══════╝
+"""
+  
+
 keyboardName = readResult( "\n".join( keyboards.keys() ) + "\nvotre clavier: ")
 hands = keyboards[ keyboardName ]
   
 leftHand,rightHand = hands
+
+d = {}
+for i, c in enumerate( leftHand ) :
+  d[ str(i) ] = c.upper().rjust(2)
+rd = {}
+for i, c in enumerate( rightHand ) :
+  d[ str( i + 100 ) ] = c.upper().rjust(2)
+printStdOut( keyboardTemplate % d )
+
 
 #nbOfChars = int( readResult( "N-gramme: ") )
 nbOfChars = 1
@@ -185,4 +214,5 @@ for pos, ( lost, total ) in scores.iteritems():
 ratio.sort()
 for r, pos in ratio:
   printStdOut( posToString( pos, chars ) + " " + str( r ) )
+  
   
