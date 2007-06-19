@@ -65,8 +65,10 @@ def posToString( pos, ref ):
   return s
   
 if len( sys.argv ) == 1 :
-  printStdOut( "il faut spécifier le nom de fichier où seront stockés les résultats." )
-  sys.exit(1)
+  resultFile = "result"
+  printStdOut( u"Résultat sauvé dans le fichier result" )
+else:
+  resultFile = sys.argv[1]
 
   
 keyboards = {
@@ -116,8 +118,8 @@ nbOfChars = 1
 
 nbOfVotes = 10
 
-if os.path.exists( sys.argv[1] ):
-  results = pickle.load( file( sys.argv[1] ) )
+if os.path.exists( resultFile ):
+  results = pickle.load( file( resultFile ) )
 else:
   results = {}
         
@@ -158,7 +160,7 @@ while run:
           run = False
           break
         elif res == "S":
-          pickle.dump( results, file( sys.argv[1], "w" ) )
+          pickle.dump( results, file( resultFile, "w" ) )
         elif res == s1:
           results[ pair ] = 1
         elif res == s2:
@@ -186,7 +188,7 @@ while run:
         
       
     
-pickle.dump( results, file( sys.argv[1], "w" ) )
+pickle.dump( results, file( resultFile, "w" ) )
 
 scores = {}
 printStdOut( u"Vos votes :" )
