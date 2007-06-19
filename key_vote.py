@@ -25,8 +25,13 @@ if sys.version < '2.4' :
       i.reverse()
     return i
 
-def printStdOut( s="" ) :
-  print s.encode( sys.stdout.encoding ) # très bizarre, mais ça ne fonctionne pas sans ça sur mac
+def printStdOut( s="", endl=True ) :
+  encoding = sys.stdout.encoding
+  if not encoding :
+    encoding = sys.getdefaultencoding()
+  print s.encode( encoding ), # très bizarre, mais ça ne fonctionne pas sans ça sur mac
+  if endl :
+    print
 
 def generateCandidate( candidateSize, min, max, wrong=[] ):
   candidate = []
@@ -40,9 +45,12 @@ def generateCandidate( candidateSize, min, max, wrong=[] ):
   return tuple( candidate )
 
 def readResult( s="", validResults=None ):
-  print s,
+  encoding = sys.stdout.encoding
+  if not encoding :
+    encoding = sys.getdefaultencoding()
+  printStdOut( s, False )
   res = sys.stdin.readline().strip()
-  res = unicode( res, sys.stdin.encoding )
+  res = unicode( res, encoding )
   
   if validResults and res not in validResults :
     printStdOut( u"Réponse invalide." )
@@ -76,7 +84,7 @@ keyboards = {
   u"azerty pc":              ( u"""²&é"'(azertqsdfg<wxcvb""", u"""-è_çà)=yuiop^$hjklmù*n,;:!""" ),
   u"bépo 6.2.2.4":           ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
   u"bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
-  u"bépo Olivier":           ( u"""@"«»()ébpoèauie,êàyh.k""", u"""_+-/*=%^vdlfzwctsrnmç'qgxj""" ),
+  u"bépo Olivier":           ( u"""@"«»()ébpoèauie,êàyh.k""", u"""_+-/*=%^vdlfzwctsrnmç'qgxj""" ),
 }
 
 keyboardTemplate = u"""
