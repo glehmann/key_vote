@@ -235,4 +235,5 @@ for r, pos in ratio:
   printStdOut( posToString( pos, chars ) + " " + str( r ) )
   
 printStdOut( keyboardTemplate % d )
+readResult( u"appuyez sur Entrée pour quitter" )
 
