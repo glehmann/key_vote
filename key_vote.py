@@ -29,7 +29,7 @@ def printStdOut( s="", endl=True ) :
   encoding = sys.stdout.encoding
   if not encoding :
     encoding = sys.getdefaultencoding()
-  print s.encode( encoding ), # très bizarre, mais ça ne fonctionne pas sans ça sur mac
+  print s.encode( encoding, 'replace' ), # très bizarre, mais ça ne fonctionne pas sans ça sur mac
   if endl :
     print
 
