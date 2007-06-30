@@ -50,7 +50,7 @@ def readResult( s="", validResults=None ):
     encoding = sys.getdefaultencoding()
   printStdOut( s, False )
   res = sys.stdin.readline().strip()
-  res = unicode( res, encoding )
+  res = unicode( res, encoding, 'replace' )
   
   if validResults and res not in validResults :
     printStdOut( u"Réponse invalide." )
