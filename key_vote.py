@@ -105,7 +105,9 @@ keyboardTemplate = u"""
 ║ Ctrl  ║ WinG ║ Alt ║  SPACE                ║ AltGr ║ WinD ║ WinM ║ Ctrl ║
 ╚═══════╩══════╩═════╩═══════════════════════╩═══════╩══════╩══════╩══════╝
 """
-  
+ 
+redColor = u"\033[31;1m"
+noColor = u"\033[0m"
 
 printStdOut( "\n".join( keyboards.keys() ) )
 keyboardName = readResult( "votre clavier: ", keyboards.keys() )
@@ -154,10 +156,16 @@ while run:
       else :
         d = {}
         for i, c in enumerate( leftHand ) :
-          d[ str(i) ] = c.upper().rjust(2)
+          if c in [s1, s2] :
+            d[ str(i) ] = redColor + c.upper().rjust(2) + noColor
+          else :
+            d[ str(i) ] = c.upper().rjust(2)
         rd = {}
         for i, c in enumerate( rightHand ) :
-          d[ str( i + 100 ) ] = c.upper().rjust(2)
+          if c in [s1, s2] :
+            d[ str( i + 100 ) ] = redColor + c.upper().rjust(2) + noColor
+          else :
+            d[ str( i + 100 ) ] = c.upper().rjust(2)
         printStdOut( keyboardTemplate % d )
 
         printStdOut( u"1->  %s     2->  %s     0->  égalité     Q->  quitter" % ( s1, s2 ) )
