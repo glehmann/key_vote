@@ -161,15 +161,13 @@ while run:
         results[ pair ] = 0
         printStdOut( "Vote automatique: " + posToString( candidate1, chars ) + " = " + posToString( candidate2, chars ) )
       else :
-        printStdOut( u"1->  %s     2->  %s     0->  égalité     S->  sauver     Q->  sauver et quitter" % ( s1, s2 ) )
+        printStdOut( u"1->  %s     2->  %s     0->  égalité     Q->  quitter" % ( s1, s2 ) )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-        res = readResult( "vote: ", ["Q", "S", "0", "1", "2", s1, s2] )
+        res = readResult( "vote: ", ["Q", "0", "1", "2", s1, s2] )
         ires = zeroOneTwo( res )
         if res == "Q":
           run = False
           break
-        elif res == "S":
-          pickle.dump( results, file( resultFile, "w" ) )
         elif res == s1:
           results[ pair ] = 1
         elif res == s2:
@@ -178,6 +176,7 @@ while run:
           results[ pair ] = ires
         else:
           printStdOut( u"Erreur dans le programme !" )
+        pickle.dump( results, file( resultFile, "w" ) )
         printStdOut()
     else:
       nbOfSearch += 1
