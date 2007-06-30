@@ -113,15 +113,6 @@ hands = keyboards[ keyboardName ]
   
 leftHand,rightHand = hands
 
-d = {}
-for i, c in enumerate( leftHand ) :
-  d[ str(i) ] = c.upper().rjust(2)
-rd = {}
-for i, c in enumerate( rightHand ) :
-  d[ str( i + 100 ) ] = c.upper().rjust(2)
-printStdOut( keyboardTemplate % d )
-
-
 #nbOfChars = int( readResult( "N-gramme: ") )
 nbOfChars = 1
 
@@ -161,6 +152,14 @@ while run:
         results[ pair ] = 0
         printStdOut( "Vote automatique: " + posToString( candidate1, chars ) + " = " + posToString( candidate2, chars ) )
       else :
+        d = {}
+        for i, c in enumerate( leftHand ) :
+          d[ str(i) ] = c.upper().rjust(2)
+        rd = {}
+        for i, c in enumerate( rightHand ) :
+          d[ str( i + 100 ) ] = c.upper().rjust(2)
+        printStdOut( keyboardTemplate % d )
+
         printStdOut( u"1->  %s     2->  %s     0->  égalité     Q->  quitter" % ( s1, s2 ) )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
         res = readResult( "vote: ", ["Q", "0", "1", "2", s1, s2] )
