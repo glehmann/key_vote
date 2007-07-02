@@ -72,6 +72,12 @@ def posToString( pos, ref ):
     s += ref[p]
   return s
   
+def stringToPos( s, ref ):
+  pos = []
+  for c in s:
+    pos.append( ref.find( c ) )
+  return tuple( pos )
+  
 if len( sys.argv ) == 1 :
   resultFile = "result"
   printStdOut( u"Résultat sauvé dans le fichier result" )
@@ -168,13 +174,23 @@ while run:
             d[ str( i + 100 ) ] = c.upper().rjust(2)
         printStdOut( keyboardTemplate % d )
 
-        printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter" % {"s1": s1, "s2": s2 } )
+        printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter     A->  annuler un duel" % {"s1": s1, "s2": s2 } )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-        res = readResult( "vote: ", ["Q", "0", "1", "2", s1, s2] )
+        res = readResult( "vote: ", ["Q", "0", "1", "2", s1, s2, "A"] )
         ires = zeroOneTwo( res )
         if res == "Q":
           run = False
           break
+        elif res == "A":
+          printStdOut( u"Annulation de duel" )
+          d1 = stringToPos( readResult( u"premier dueliste : " ), chars )
+          d2 = stringToPos( readResult( u"deuxième dueliste : " ), chars )
+          ds = tuple( sorted( ( d1, d2 ) ) )
+          if ds in results:
+            del results[ds]
+            printStdOut( u"Le duel est annulé. Vour pourrez revoter pour ce duel plus tard." )
+          else:
+            printStdOut( u"Le duel n'existe pas." )
         elif res == s1:
           results[ pair ] = 1
         elif res == s2:
@@ -187,16 +203,26 @@ while run:
         printStdOut()
     else:
       nbOfSearch += 1
-      if nbOfSearch > 1000:
+      if nbOfSearch > 10000:
         printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
-        printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter" )
+        printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter     A->  annuler un duel" )
         printStdOut( u"       %i duels réalisés" % len( results ) )
-        res = readResult( u"Choix: ", ["C", "Q"] )
+        res = readResult( u"Choix: ", ["C", "Q", "A"] )
         if res == "Q":
           run = False
           break
         elif res == "C":
           printStdOut( u"Continue à chercher" )
+        elif res == "A":
+          printStdOut( u"Annulation de duel" )
+          d1 = stringToPos( readResult( u"premier dueliste : " ), chars )
+          d2 = stringToPos( readResult( u"deuxième dueliste : " ), chars )
+          ds = tuple( sorted( ( d1, d2 ) ) )
+          if ds in results:
+            del results[ds]
+            printStdOut( u"Le duel est annulé. Vour pourrez revoter pour ce duel plus tard." )
+          else:
+            printStdOut( u"Le duel n'existe pas." )
         else:
           printStdOut( u"Erreur dans le programme !" )
         printStdOut()
