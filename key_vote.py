@@ -168,7 +168,7 @@ while run:
             d[ str( i + 100 ) ] = c.upper().rjust(2)
         printStdOut( keyboardTemplate % d )
 
-        printStdOut( u"1->  %s     2->  %s     0->  égalité     Q->  quitter" % ( s1, s2 ) )
+        printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter" % {"s1": s1, "s2": s2 } )
         printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
         res = readResult( "vote: ", ["Q", "0", "1", "2", s1, s2] )
         ires = zeroOneTwo( res )
