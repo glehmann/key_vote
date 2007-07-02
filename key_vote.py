@@ -211,7 +211,9 @@ for ( pos1, pos2 ), v in results.iteritems():
   printStdOut( posToString( pos1, chars ) + " " + "=><"[v] + " " + posToString( pos2, chars ) )
   
   lost, total = scores.get( pos1, ( 0, 0 ) )
-  total += 1
+  if v != 0 :
+    total += 1
+      
   if v == 2:
     lost += 1
   scores[ pos1 ] = ( lost, total )
