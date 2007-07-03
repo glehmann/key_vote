@@ -111,9 +111,14 @@ keyboardTemplate = u"""
 ║ Ctrl  ║ WinG ║ Alt ║  SPACE                ║ AltGr ║ WinD ║ WinM ║ Ctrl ║
 ╚═══════╩══════╩═════╩═══════════════════════╩═══════╩══════╩══════╩══════╝
 """
- 
-redColor = u"\033[31;1m"
-noColor = u"\033[0m"
+
+if sys.platform == "win32":
+  # no (easy) color support
+  redColor = u""
+  noColor = u""
+else:
+  redColor = u"\033[31;1m"
+  noColor = u"\033[0m"
 
 printStdOut( "\n".join( keyboards.keys() ) )
 keyboardName = readResult( "votre clavier: ", keyboards.keys() )
