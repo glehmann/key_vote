@@ -189,8 +189,8 @@ while run:
           break
         elif res == "A":
           printStdOut( u"Annulation de duel" )
-          d1 = stringToPos( readResult( u"premier dueliste : " ), chars )
-          d2 = stringToPos( readResult( u"deuxième dueliste : " ), chars )
+          d1 = stringToPos( readResult( u"premier duelliste : " ), chars )
+          d2 = stringToPos( readResult( u"deuxième duelliste : " ), chars )
           ds = tuple( sorted( ( d1, d2 ) ) )
           if ds in results:
             del results[ds]
@@ -221,8 +221,8 @@ while run:
           printStdOut( u"Continue à chercher" )
         elif res == "A":
           printStdOut( u"Annulation de duel" )
-          d1 = stringToPos( readResult( u"premier dueliste : " ), chars )
-          d2 = stringToPos( readResult( u"deuxième dueliste : " ), chars )
+          d1 = stringToPos( readResult( u"premier duelliste : " ), chars )
+          d2 = stringToPos( readResult( u"deuxième duelliste : " ), chars )
           ds = tuple( sorted( ( d1, d2 ) ) )
           if ds in results:
             del results[ds]
