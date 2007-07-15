@@ -10,6 +10,9 @@ for fName in sys.argv[1:] :
   f = file( fName )
   results = pickle.load( f )
   
+  if isinstance( results, tuple ):
+    results = key_vote_lib.computeMachs( results )
+  
   key_vote_lib.countLost( results, scores )
   nbOfVotes += len( results )
   
