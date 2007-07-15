@@ -213,7 +213,7 @@ if __name__ == '__main__':
       untested.pop(0) # on supprime le caractère de l'array
     
 
-  # génère les duel comme dans la version de base
+  # génère les duels comme dans la version de base
   base_results = {}
   for handID in (0,1):
     less = []
@@ -240,8 +240,6 @@ if __name__ == '__main__':
   
   key_vote_lib.printStdOut()
   key_vote_lib.printStdOut( u'Vos votes :' )
-  
-  print base_results
   
   # calcul des matchs perdus/total pour chaque touche
   scores = key_vote_lib.computeScores( key_vote_lib.countLost( base_results ) )
