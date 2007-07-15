@@ -104,6 +104,7 @@ if __name__ == '__main__':
             run = False
             break
           elif res == "C":
+            nbOfSearch = 0
             key_vote_lib.printStdOut( u'Continue à chercher' )
           elif res == "A":
             key_vote_lib.cancelDuel(results, hands)
