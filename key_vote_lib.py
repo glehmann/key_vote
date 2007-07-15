@@ -32,138 +32,169 @@ keyboardTemplate = u"""
 """
 
 if sys.platform == "win32":
-	# no (easy) color support
-	redColor = u""
-	noColor = u""
+  # no (easy) color support
+  redColor = u""
+  noColor = u""
 else: # terminal color for Linux & MacOSX
-	redColor = u"\033[31;1m"
-	noColor = u"\033[0m"
+  redColor = u"\033[31;1m"
+  noColor = u"\033[0m"
 
 # print a string on stdout
 # whith the good charset
 def printStdOut( s="", endl=True ) :
-	encoding = sys.stdout.encoding
-	if not encoding :
-		encoding = sys.getdefaultencoding()
-	print s.encode( encoding, 'replace' ), # très bizarre, mais ça ne fonctionne pas sans ça sur mac
-	if endl :
-		print
+  encoding = sys.stdout.encoding
+  if not encoding :
+    encoding = sys.getdefaultencoding()
+  print s.encode( encoding, 'replace' ), # très bizarre, mais ça ne fonctionne pas sans ça sur mac
+  if endl :
+    print
 
 # read the result from the choice
 # return the character, retry if needed until a good reply is provided
 def readResult( s="", validResults=None ):
-	encoding = sys.stdout.encoding
-	if not encoding :
-		encoding = sys.getdefaultencoding()
-	printStdOut( s, False )
-	res = sys.stdin.readline().strip()
-	res = unicode( res, encoding, 'replace' )
-	
-	if validResults and res not in validResults :
-		printStdOut( u"Réponse invalide." )
-		return readResult( s, validResults )
-		
-	return res
+  encoding = sys.stdout.encoding
+  if not encoding :
+    encoding = sys.getdefaultencoding()
+  printStdOut( s, False )
+  res = sys.stdin.readline().strip()
+  res = unicode( res, encoding, 'replace' )
+  
+  if validResults and res not in validResults :
+    printStdOut( u"Réponse invalide." )
+    return readResult( s, validResults )
+    
+  return res
 
 # take a char and return the corresponding integer
 # return None if it's not an integer, or if the integer is not 0,1 or 2
 def zeroOneTwo( s ):
-	if not s.isdigit():
-		return None
-	i = int( s )
-	if 0 <= i <= 2:
-		return i
-	return None
+  if not s.isdigit():
+    return None
+  i = int( s )
+  if 0 <= i <= 2:
+    return i
+  return None
 
 def printKbdLayout(keyboard, chars=None):
-	d = {}
-	for handID in (0,1):
-		for (i,c) in enumerate( keyboard[handID] ):
-			if chars!=None and c in chars: # highlight it
-				d[ str(i + handID*100) ] = redColor + c.upper().rjust(2) + noColor
-			else:
-				d[ str(i + handID*100) ] = c.upper().rjust(2)
-	printStdOut( keyboardTemplate % d )
+  d = {}
+  for handID in (0,1):
+    for (i,c) in enumerate( keyboard[handID] ):
+      if chars!=None and c in chars: # highlight it
+        d[ str(i + handID*100) ] = redColor + c.upper().rjust(2) + noColor
+      else:
+        d[ str(i + handID*100) ] = c.upper().rjust(2)
+  printStdOut( keyboardTemplate % d )
 
-def printKbdScores(keyboard, scores): # { key1 => score1 ; key2 => score2 ; ... }
-	d = {}
-	for handID in (0,1):
-		for (i,c) in enumerate( keyboard[handID] ):
-			if c in scores.keys():
-				if scores[c] == 1: # should display '100'
-					d[ str(i + handID*100) ] = '00' # we display '00'
-				else:
-					d[ str(i + handID*100) ] = str(int(scores[c]*100)).rjust( 2 )
-			else:
-				d[ str(i + handID*100) ] = '  ' # untested keys displayed as spaces
-	printStdOut( keyboardTemplate % d )
-	for char in scores:
-		printStdOut( char + ' ' + str(scores[char]) )
+def printKbdScores( scores ): # { key1 => score1 ; key2 => score2 ; ... }
+  d = {}
+  for handID in (0,1):
+    for (i,c) in enumerate( keyboards["azerty mac"][handID] ):
+      pos = (i + handID*100,)
+      if pos in scores.keys():
+        if scores[pos] == 1: # should display '100'
+          d[ str( pos[0] ) ] = '00' # we display '00'
+        else:
+          d[ str( pos[0] ) ] = str(int(scores[pos]*100)).rjust( 2 )
+      else:
+        d[ str( pos[0] ) ] = '  ' # untested keys displayed as spaces
+  printStdOut( keyboardTemplate % d )
 
 def chooseKbd():
-	printStdOut( "\n" )
-	possibleResults = keyboards.keys()
-	for (i,k) in enumerate( keyboards.keys() ):
-		printStdOut( str(i) + ' : ' + k )
-		possibleResults.append(str(i))
-	#printStdOut( 'possible results : ' + str(possibleResults) )
-	kbdindex = readResult( "votre clavier: ", possibleResults )
-	if kbdindex.isdigit():
-		return keyboards[keyboards.keys()[int(kbdindex)]]
-	else:
-		return keyboards[kbdindex]
+  printStdOut( "\n" )
+  possibleResults = keyboards.keys()
+  for (i,k) in enumerate( keyboards.keys() ):
+    printStdOut( str(i) + ' : ' + k )
+    possibleResults.append(str(i))
+  #printStdOut( 'possible results : ' + str(possibleResults) )
+  kbdindex = readResult( "votre clavier: ", possibleResults )
+  if kbdindex.isdigit():
+    return keyboards[keyboards.keys()[int(kbdindex)]]
+  else:
+    return keyboards[kbdindex]
 
 if sys.version < '2.4' :
-	def sorted(iterable, cmp=None, key=None, reverse=False) :
-		i = list(iterable)
-		if key :
-			d = {}
-			for v in iterable :
-				k = key(v)
-				if not d.has_key(k) :
-					d[k] = []
-				d[k].append(v)
-			keys = d.keys()
-			keys.sort(cmp)
-			i = []
-			for k in keys :
-				i += d[k]
-		else :
-			i.sort(cmp)
-		if reverse :
-			i.reverse()
-		return i
+  def sorted(iterable, cmp=None, key=None, reverse=False) :
+    i = list(iterable)
+    if key :
+      d = {}
+      for v in iterable :
+        k = key(v)
+        if not d.has_key(k) :
+          d[k] = []
+        d[k].append(v)
+      keys = d.keys()
+      keys.sort(cmp)
+      i = []
+      for k in keys :
+        i += d[k]
+    else :
+      i.sort(cmp)
+    if reverse :
+      i.reverse()
+    return i
 
 def posToString( pos, kbd ):
-	ref = kbd[0].ljust( 100 ) + kbd[1]
-	s = ""
-	for p in pos:
-		s += ref[p]
-	return s
+  ref = kbd[0].ljust( 100 ) + kbd[1]
+  s = ""
+  for p in pos:
+    s += ref[p]
+  return s
 
 def stringToPos( s, kbd ):
-	ref = kbd[0].ljust( 100 ) + kbd[1]
-	pos = []
-	for c in s:
-		pos.append( ref.find( c ) )
-	return tuple( pos )
+  ref = kbd[0].ljust( 100 ) + kbd[1]
+  pos = []
+  for c in s:
+    pos.append( ref.find( c ) )
+  return tuple( pos )
 
 def cancelDuel(results, kbd):
-	chars = kbd[0].ljust( 100 ) + kbd[1]
-	printStdOut( u'Annulation de duel' )
-	
-	i = 0
-	possible = []
-	for pair in results.keys():
-		printStdOut(str(i) + ' : ' + posToString(pair[0], kbd) + ' ' + '=><'[results[pair]] + ' ' + posToString(pair[1], kbd))
-		possible.append(str(i))
-		i = i+1
-	
-	pos = int(readResult( u'choix : ', possible ))
-	i = 0
-	for pair in results.keys():
-		if i == pos:
-			del results[pair]
-			printStdOut( u'Le duel est annulé. Vour pourrez revoter pour ce duel plus tard.' )
-			return
-		i = i+1
+  chars = kbd[0].ljust( 100 ) + kbd[1]
+  printStdOut( u'Annulation de duel' )
+  
+  i = 0
+  possible = []
+  for pair in results.keys():
+    printStdOut(str(i) + ' : ' + posToString(pair[0], kbd) + ' ' + '=><'[results[pair]] + ' ' + posToString(pair[1], kbd))
+    possible.append(str(i))
+    i = i+1
+  
+  pos = int(readResult( u'choix : ', possible ))
+  i = 0
+  for pair in results.keys():
+    if i == pos:
+      del results[pair]
+      printStdOut( u'Le duel est annulé. Vour pourrez revoter pour ce duel plus tard.' )
+      return
+    i = i+1
+
+def countLost( results, scores = {} ):
+  for ( pos1, pos2 ), v in results.iteritems():
+#    key_vote_lib.printStdOut( key_vote_lib.posToString( pos1, hands ) + ' ' + '=><'[v] + " " + key_vote_lib.posToString( pos2, hands ) )
+    
+    score1 = scores.get( pos1, (0,0) ) # lost, total
+    score2 = scores.get( pos2, (0,0) ) # lost, total
+    
+    if v != 0 : # not '='
+      score1 = (score1[0],score1[1]+1) # score1['total']++
+      score2 = (score2[0],score2[1]+1) # score2['total']++
+    
+    if v == 2: # 1 '<' 2
+      score1 = (score1[0]+1,score1[1]) # score2['lost']++
+    elif v == 1:
+      score2 = (score2[0]+1,score2[1]) # score2['lost']++
+    
+    scores[ pos1 ] = score1
+    scores[ pos2 ] = score2
+
+  return scores
+    
+
+def computeScores( scores ):
+  # calcul du score pour chaque touche
+  finalScores = {}
+  for (pos, (lost, total)) in scores.iteritems():
+    if total != 0:
+      finalScores[ pos ] = float( total - lost ) / total
+  
+  return finalScores
+  
