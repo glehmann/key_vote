@@ -137,30 +137,9 @@ if __name__ == '__main__':
     
 
   # génère les duels comme dans la version de base
-  base_results = {}
-  for handID in (0,1):
-    less = []
-    for (i,result) in enumerate(results[handID]): # pour chaque ensemble de touches
-      currentLess = []
-      for char in result: # pour chaque touche
-      	candidate1 = char
-      	for l in less:
-      		candidate2 = l
-      		if candidate1 < candidate2:
-      		  base_results[ ( candidate1, candidate2 ) ] = 1
-      		else:
-      		  base_results[ ( candidate2, candidate1 ) ] = 2
-      	for l in currentLess:
-      		candidate2 = key_vote_lib.stringToPos( l, kbd )
-      		if candidate1 < candidate2:
-      		  base_results[ ( candidate1, candidate2 ) ] = 0
-      		else:
-      		  base_results[ ( candidate2, candidate1 ) ] = 0
-        currentLess.append( char )
-      less += currentLess
-  			
+  base_results = key_vote_lib.computeMachs( results )
+
   # affichage des résultats
-  
   key_vote_lib.printStdOut()
   key_vote_lib.printStdOut( u'Vos votes :' )
   

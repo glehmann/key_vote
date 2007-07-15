@@ -198,3 +198,26 @@ def computeScores( scores ):
   
   return finalScores
   
+def computeMachs( results ):
+  base_results = {}
+  for handID in (0,1):
+    less = []
+    for (i,result) in enumerate(results[handID]): # pour chaque ensemble de touches
+      currentLess = []
+      for char in result: # pour chaque touche
+      	candidate1 = char
+      	for l in less:
+      		candidate2 = l
+      		if candidate1 < candidate2:
+      		  base_results[ ( candidate1, candidate2 ) ] = 1
+      		else:
+      		  base_results[ ( candidate2, candidate1 ) ] = 2
+      	for l in currentLess:
+      		candidate2 = l
+      		if candidate1 < candidate2:
+      		  base_results[ ( candidate1, candidate2 ) ] = 0
+      		else:
+      		  base_results[ ( candidate2, candidate1 ) ] = 0
+        currentLess.append( char )
+      less += currentLess
+  return base_results  			
