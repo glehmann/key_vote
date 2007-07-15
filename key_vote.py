@@ -117,11 +117,12 @@ if __name__ == '__main__':
   # affichage des résultats
   
   key_vote_lib.printStdOut()
-  key_vote_lib.printStdOut( u'Vos votes :' )
+  # key_vote_lib.printStdOut( u'Vos votes :' )
   
   # calcul des matchs perdus/total pour chaque touche
   scores = key_vote_lib.computeScores( key_vote_lib.countLost( results ) )
   
   # affichage du résultat
+  key_vote_lib.printScores( scores, hands )
   key_vote_lib.printKbdScores( scores )
   key_vote_lib.readResult( u'appuyez sur Entrée pour quitter' )

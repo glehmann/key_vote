@@ -99,6 +99,16 @@ def printKbdScores( scores ): # { key1 => score1 ; key2 => score2 ; ... }
         d[ str( pos[0] ) ] = '  ' # untested keys displayed as spaces
   printStdOut( keyboardTemplate % d )
 
+def printScores( scores, kbd ): # { key1 => score1 ; key2 => score2 ; ... }
+  d = {}
+  for c, s in scores.iteritems():
+    l = d.get( s, [] )
+    l.append( posToString( c, kbd ) )
+    d[s] = l
+  for s in sorted( d.keys() ):
+    for c in d[s]:
+      printStdOut( u"%s: %s" % (c, s) )
+
 def chooseKbd():
   printStdOut( "\n" )
   possibleResults = keyboards.keys()
