@@ -9,7 +9,7 @@ keyboards = {
   u"bépo 6.2.2.4":           ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^’qgxj""" ),
   u"bépo 6.2.2.4 (test)":    ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
   u"bépo 6.2.3":             ( u"""@"«»()bépoèauie,êàyh.k""", u"""_+-/*=%çvdlfzwctsnrm^'qgxj""" ),
-  u"bépo Olivier":           ( u"""@"«»()ébpoèauie,êàyh.k""", u"""_+-/*=%^vdlfzwctsrnmç'qgxj""" ),
+  u"bépo Olivier":           ( u"""@"«»()ébpoèauie,êàyh.k""", u"""_+-/*=%^vdljzwctsrnmç'qgxf""" ),
 }
 
 keyboardTemplate = u"""
