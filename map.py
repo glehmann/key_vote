@@ -18,6 +18,7 @@ for fName in sys.argv[1:] :
   
   f.close()
   
+print len(sys.argv[1:]), "votants."
 print nbOfVotes, "votes."
 ratio = key_vote_lib.computeScores( scores )
 key_vote_lib.printKbdScores( ratio )
