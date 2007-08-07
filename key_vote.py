@@ -98,7 +98,7 @@ if __name__ == '__main__':
           key_vote_lib.printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
           key_vote_lib.printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter     A->  annuler un duel" )
           key_vote_lib.printStdOut( u"       %i duels réalisés" % len( results ) )
-          res = readResult( u'Choix: ', ['C', 'Q', 'A'] )
+          res = key_vote_lib.readResult( u'Choix: ', ['C', 'Q', 'A'] )
           
           if res == "Q":
             run = False
