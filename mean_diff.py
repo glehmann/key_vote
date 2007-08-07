@@ -31,9 +31,13 @@ singleRatio = key_vote_lib.computeScores( singleScores )
 
 # now, for the all the scores, compute the diff to the mean
 singleDiff = {}
+total = 0
 for k, v in singleRatio.iteritems() :
-  singleDiff[k] = abs( v - ratio[k] )
-
+  diff = abs( v - ratio[k] )
+  singleDiff[k] = diff
+  total += diff
 
 key_vote_lib.printScores( singleDiff, hands )
+key_vote_lib.printStdOut()
+key_vote_lib.printStdOut( u"Différence totale: " + str( total ) )
 key_vote_lib.printKbdScores( singleDiff )

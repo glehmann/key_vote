@@ -25,11 +25,16 @@ for fName in sys.argv[1:] :
 ratio = key_vote_lib.computeScores( scores )
 
 sigma = {}
+total = 0
 for k in ratio.keys() :
   sum2 = 0
   for r in ratios :
     sum2 += math.pow( r[k] - ratio[k], 2 )
-  sigma[k] = math.sqrt( sum2 / len(ratios) )
+  s = math.sqrt( sum2 / len(ratios) )
+  sigma[k] = s
+  total += s
 
 key_vote_lib.printScores( sigma, hands )
+key_vote_lib.printStdOut()
+key_vote_lib.printStdOut( u"Différence totale: " + str( total ) )
 key_vote_lib.printKbdScores( sigma )
