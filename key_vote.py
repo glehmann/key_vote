@@ -70,6 +70,10 @@ if __name__ == '__main__':
         else: # not automatic vote
           key_vote_lib.printKbdLayout(hands, (s1,s2) )
           
+          key_vote_lib.printStdOut()
+          key_vote_lib.printStdOut( u"        Duel :            %(redColor)s%(s1)s%(noColor)s    contre    %(redColor)s%(s2)s%(noColor)s" % {"s1": s1.upper(), "s2": s2.upper(), "redColor": key_vote_lib.redColor, "noColor": key_vote_lib.noColor } )
+          key_vote_lib.printStdOut()
+          key_vote_lib.printStdOut()
           key_vote_lib.printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter     A->  annuler un duel" % {"s1": s1, "s2": s2 } )
           key_vote_lib.printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
           res = key_vote_lib.readResult( 'vote: ', ['Q', '0', '1', '2', s1, s2, 'A'] )
