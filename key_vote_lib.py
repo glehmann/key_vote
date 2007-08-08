@@ -158,24 +158,15 @@ def stringToPos( s, kbd ):
   return tuple( pos )
 
 def cancelDuel(results, kbd):
-  chars = kbd[0].ljust( 100 ) + kbd[1]
-  printStdOut( u'Annulation de duel' )
-  
-  i = 0
-  possible = []
-  for pair in results.keys():
-    printStdOut(str(i) + ' : ' + posToString(pair[0], kbd) + ' ' + '=><'[results[pair]] + ' ' + posToString(pair[1], kbd))
-    possible.append(str(i))
-    i = i+1
-  
-  pos = int(readResult( u'choix : ', possible ))
-  i = 0
-  for pair in results.keys():
-    if i == pos:
-      del results[pair]
-      printStdOut( u'Le duel est annulé. Vour pourrez revoter pour ce duel plus tard.' )
-      return
-    i = i+1
+  printStdOut( u"Annulation de duel" )
+  d1 = stringToPos( readResult( u"premier duelliste : " ), kbd )
+  d2 = stringToPos( readResult( u"deuxième duelliste : " ), kbd )
+  ds = tuple( sorted( ( d1, d2 ) ) )
+  if ds in results:
+    del results[ds]
+    printStdOut( u"Le duel est annulé. Vour pourrez revoter pour ce duel plus tard." )
+  else:
+    printStdOut( u"Le duel n'existe pas." )
 
 def countLost( results, scores = {} ):
   for ( pos1, pos2 ), v in results.iteritems():
