@@ -168,6 +168,13 @@ def cancelDuel(results, kbd):
   else:
     printStdOut( u"Le duel n'existe pas." )
 
+def cancelDuels(results, kbd):
+  printStdOut( u"Annulation des duels d'un duelliste" )
+  d1 = stringToPos( readResult( u"duelliste : " ), kbd )
+  for k in results.keys() :
+    if d1 in k :
+      del results[k]
+
 def countLost( results, scores = {} ):
   for ( pos1, pos2 ), v in results.iteritems():
 #    key_vote_lib.printStdOut( key_vote_lib.posToString( pos1, hands ) + ' ' + '=><'[v] + " " + key_vote_lib.posToString( pos2, hands ) )

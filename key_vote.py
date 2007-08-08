@@ -74,9 +74,9 @@ if __name__ == '__main__':
           key_vote_lib.printStdOut( u"        Duel :            %(redColor)s%(s1)s%(noColor)s    contre    %(redColor)s%(s2)s%(noColor)s" % {"s1": s1.upper(), "s2": s2.upper(), "redColor": key_vote_lib.redColor, "noColor": key_vote_lib.noColor } )
           key_vote_lib.printStdOut()
           key_vote_lib.printStdOut()
-          key_vote_lib.printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter     A->  annuler un duel" % {"s1": s1, "s2": s2 } )
+          key_vote_lib.printStdOut( u"%(s1)s ou 1->  %(s1)s     %(s2)s ou 2->  %(s2)s     0->  égalité     Q->  quitter     A->  annuler un duel     T->  annuler des duels d'une touche" % {"s1": s1, "s2": s2 } )
           key_vote_lib.printStdOut( u"       %i duels réalisés / 556 possibles" % len( results ) )
-          res = key_vote_lib.readResult( 'vote: ', ['Q', '0', '1', '2', s1, s2, 'A'] )
+          res = key_vote_lib.readResult( 'vote: ', ['Q', '0', '1', '2', s1, s2, 'A', 'T'] )
           ires = key_vote_lib.zeroOneTwo( res )
           
           if res == 'Q': # Q
@@ -90,6 +90,8 @@ if __name__ == '__main__':
             results[ pair ] = 2
           elif res == 'A':
             key_vote_lib.cancelDuel(results, hands)
+          elif res == 'T':
+            key_vote_lib.cancelDuels(results, hands)
           else:
             key_vote_lib.printStdOut( u'Erreur dans le programme !' )
           
@@ -100,9 +102,9 @@ if __name__ == '__main__':
         if nbOfSearch > 10000:
           
           key_vote_lib.printStdOut( u"Il semble difficile de trouver de nouvelles combinaisons." )
-          key_vote_lib.printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter     A->  annuler un duel" )
+          key_vote_lib.printStdOut( u"C -> continuer à chercher   Q -> sauver et quitter     A->  annuler un duel     T->  annuler des duels d'une touche" )
           key_vote_lib.printStdOut( u"       %i duels réalisés" % len( results ) )
-          res = key_vote_lib.readResult( u'Choix: ', ['C', 'Q', 'A'] )
+          res = key_vote_lib.readResult( u'Choix: ', ['C', 'Q', 'A', 'T'] )
           
           if res == "Q":
             run = False
@@ -112,6 +114,8 @@ if __name__ == '__main__':
             key_vote_lib.printStdOut( u'Continue à chercher' )
           elif res == "A":
             key_vote_lib.cancelDuel(results, hands)
+          elif res == 'T':
+            key_vote_lib.cancelDuels(results, hands)
           else:
             key_vote_lib.printStdOut( u'Erreur dans le programme !' )
           
